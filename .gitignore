@@ -1,0 +1,49 @@
+# Cargo package manager
+/target/
+**/*.rs.bk
+
+# Ignore Cargo.lock for libraries (optional)
+# If you're building a binary (e.g. CLI or server), keep Cargo.lock
+#Cargo.lock
+
+# IDE / Editor settings
+.idea/
+.vscode/
+*.sw?
+*.swo
+*.swn
+*.swn
+*.bak
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Logs
+*.log
+
+# Byproducts
+*.dSYM/
+*.rlib
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Rust coverage / testing tools
+htmlcov/
+coverage/
+*.profraw
+*.profdata
+
+# Rust build tools
+.cargo/
+.cargo_vcs_info.json
+
+# Rust tooling (somet
