@@ -88,16 +88,3 @@ All endpoints return responses in a consistent format:
 }
 ```
 
-## Development
-
-```bash
-# Run tests
-cargo test
-
-# Run with logging
-RUST_LOG=debug cargo run
-```
-
-## License
-
-MIT

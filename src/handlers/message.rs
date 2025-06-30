@@ -1,4 +1,5 @@
 use actix_web::{post, web, HttpResponse};
+use base64::Engine;
 use ed25519_dalek::{Keypair, PublicKey, Signature, SECRET_KEY_LENGTH, SIGNATURE_LENGTH, Signer, Verifier};
 use crate::{
     models::{ApiResponse, SignMessageRequest, SignMessageResponse, VerifyMessageRequest, VerifyMessageResponse},
@@ -21,7 +22,7 @@ pub async fn sign_message(req: web::Json<SignMessageRequest>) -> ServerResult<Ht
     let signature = keypair.sign(req.message.as_bytes());
 
     let response = SignMessageResponse {
-        signature: base64::encode(signature.to_bytes()),
+        signature: base64::Engine::encode(&base64::engine::general_purpose::STANDARD, &signature.to_bytes()),
         public_key: bs58::encode(keypair.public.to_bytes()).into_string(),
         message: req.message.clone(),
     };
@@ -35,7 +36,7 @@ pub async fn verify_message(req: web::Json<VerifyMessageRequest>) -> ServerResul
         .into_vec()
         .map_err(|_| ServerError::ValidationError("Invalid public key format".to_string()))?;
 
-    let signature_bytes = base64::decode(&req.signature)
+    let signature_bytes = base64::engine::general_purpose::STANDARD.decode(&req.signature)
         .map_err(|_| ServerError::ValidationError("Invalid signature format".to_string()))?;
 
     if signature_bytes.len() != SIGNATURE_LENGTH {
